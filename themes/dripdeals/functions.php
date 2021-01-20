@@ -24,10 +24,36 @@ function jb_dripdeals_scripts(){
     wp_enqueue_style('font-awesome', '//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
     wp_enqueue_style('fancybox', '//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css');
 
-    
-
 }
-
-
-
 add_action('wp_enqueue_scripts', 'jb_dripdeals_scripts');
+
+
+//=======================
+## Slider customizer
+//=======================
+
+require_once dirname(__FILE__) . '/inc/customizer.php';
+
+
+//=======================
+## Custom website logo
+//=======================
+
+
+function jb_dripdeals_custom_logo_setup()
+{
+    $defaults = array(
+        'height' => 37,
+        'width' => 155,
+        'flex-height' => true,
+        'flex-width' => true,
+        'header-text' => array('dripdeals', 'site-description'),
+        'unlink-homepage-logo' => true,
+    );
+    add_theme_support('custom-logo', $defaults);
+}
+add_action('after_setup_theme', 'jb_dripdeals_custom_logo_setup');
+
+// Add Thumbnail Support
+add_theme_support('post-thumbnails');
+set_post_thumbnail_size(1200, 900, true);
