@@ -3,7 +3,7 @@
 function jb_dripdeals_slider_customizer($wp_customize)
 {
     $wp_customize->add_section('dripdeals_slider_customizer', array(
-        'title' => __('Slider Customizer', 'dripdeals'),
+        'title' => esc_html__('Slider Customizer', 'dripdeals'),
         'description' => 'setup the slider for the home page. You can add html tags to make your text neat',
         'priority' => 20,
     ));
@@ -92,7 +92,6 @@ function jb_dripdeals_slider_customizer($wp_customize)
         'settings' => 'dripdeal_slider_image1',
     )));
 
-
     $wp_customize->add_setting('dripdeal_slider_image2', array(
         'default' => 'image.jpg',
         'capability' => 'edit_theme_options',
@@ -104,7 +103,6 @@ function jb_dripdeals_slider_customizer($wp_customize)
         'section' => 'dripdeals_slider_customizer',
         'settings' => 'dripdeal_slider_image2',
     )));
-
 
     $wp_customize->add_setting('dripdeal_slider_image3', array(
         'default' => 'image.jpg',
@@ -120,3 +118,65 @@ function jb_dripdeals_slider_customizer($wp_customize)
 
 }
 add_action('customize_register', 'jb_dripdeals_slider_customizer');
+
+
+// ==================
+// Social Icon Customizer
+//======================
+
+
+
+function dripdeals_social_icon_customizer($wp_customize)
+{
+    $wp_customize->add_section('dripdeals_social_customizer', array(
+        'title' => esc_html__('Social Icons', 'dripdeals'),
+        'description' => 'Setup the social Media Profiles you want to display on your site',
+        'priority' => 20,
+    ));
+
+//first social media link and icon
+    $wp_customize->add_setting('dripdeals_facebook_icon', array(
+        'default' => '',
+        'capability' => 'edit_theme_options',
+        'type' => 'option',
+        'sanitize_callback' => 'esc_url_raw'
+
+    ));
+
+    $wp_customize->add_control('dripdeals_social_icon1', array(
+        'label' => __('Facebook Profile Link', 'dripdeals'),
+        'section' => 'dripdeals_social_customizer',
+        'settings' => 'dripdeals_facebook_icon',
+    ));
+//second social media link and icon
+    $wp_customize->add_setting('dripdeals_twitter_icon', array(
+        'default' => '',
+        'capability' => 'edit_theme_options',
+        'type' => 'option',
+        'sanitize_callback' => 'esc_url_raw'
+
+    ));
+
+    $wp_customize->add_control('dripdeals_social_icon2', array(
+        'label' => __('Twitter Profile Link', 'dripdeals'),
+        'section' => 'dripdeals_social_customizer',
+        'settings' => 'dripdeals_twitter_icon',
+    ));
+//Third social media link and icon
+    $wp_customize->add_setting('dripdeals_instagram_icon', array(
+        'default' => '',
+        'capability' => 'edit_theme_options',
+        'type' => 'option',
+        'sanitize_callback' => 'esc_url_raw'
+
+    ));
+
+    $wp_customize->add_control('dripdeals_social_icon3', array(
+        'label' => __('Instagram Profile Link', 'dripdeals'),
+        'section' => 'dripdeals_social_customizer',
+        'settings' => 'dripdeals_instagram_icon',
+    ));
+
+}
+
+add_action('customize_register', 'dripdeals_social_icon_customizer');

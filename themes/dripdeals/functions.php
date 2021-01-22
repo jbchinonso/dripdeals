@@ -43,8 +43,8 @@ require_once dirname(__FILE__) . '/inc/customizer.php';
 function jb_dripdeals_custom_logo_setup()
 {
     $defaults = array(
-        'height' => 37,
-        'width' => 155,
+        'height' => 47,
+        'width' => 174,
         'flex-height' => true,
         'flex-width' => true,
         'header-text' => array('dripdeals', 'site-description'),
@@ -57,3 +57,70 @@ add_action('after_setup_theme', 'jb_dripdeals_custom_logo_setup');
 // Add Thumbnail Support
 add_theme_support('post-thumbnails');
 set_post_thumbnail_size(1200, 900, true);
+
+
+function jb_dripdeals_nav_menu()
+{
+    register_nav_menu('mainMenu', 'main Menu');
+    register_nav_menu('footerMenu', 'footer Menu');
+}
+add_action('after_setup_theme', 'jb_dripdeals_nav_menu');
+
+
+function jb_dripdeals_review_post()
+{
+    register_post_type('review', array(
+        'public' => true,
+        'show_in_menu' => true,
+        'has_archive' => true,
+        'rewrite' => array('slug' => 'reviews'),
+        'show_in_rest' => true,
+        'labels' => array(
+            'name' => 'Reviews',
+            'singular_name' => 'Review',
+            'add_new_item' => 'Add New Review',
+            'edit_item' => 'Edit review',
+            'all_items' => 'All reviews',
+            'featured_image' => 'Review Image',
+            'set_featured_image' => 'Set image',
+            'remove_featured_image' => 'Remove image',
+            'use_featured_image' => 'Use as review image',
+        ),
+        'supports' => array('title', 'editor', 'thumbnail', 'custom-fields'),
+        'menu_icon' => 'dashicons-screenoptions',
+    ));
+}
+
+add_action('init', 'jb_dripdeals_review_post');
+
+
+function jb_dripdeals_address_widget()
+{
+
+    register_sidebar(array(
+        'name' => 'Footer Address widget Area',
+        'id' => 'address_widget',
+        'before_widget' => '<div class="headinga">',
+        'after_widget' => '</div>',
+        'before_title' => '<h3>',
+        'after_title' => '</h3>',
+    ));
+
+}
+add_action('widgets_init', 'jb_dripdeals_address_widget');
+
+
+function jb_dripdeals_copyrignt_widget()
+{
+
+    register_sidebar(array(
+        'name' => 'Footer copyrignt widget Area',
+        'id' => 'copyrignt_widget',
+        'before_widget' => '<div class="container">',
+        'after_widget' => '</div>',
+        'before_title' => '<h3>',
+        'after_title' => '</h3>',
+    ));
+
+}
+add_action('widgets_init', 'jb_dripdeals_copyrignt_widget');

@@ -5,36 +5,56 @@
                 <div class="row pdn-top-30">
                     <div class="col-md-12 ">
                         <div class="footer-box">
-                            <div class="headinga">
-                                <h3>Address</h3>
-                                <span>Healing Center, 176 W Streetname,New York, NY 10014, US</span>
-                                <p>(+71) 8522369417
-                                    <br>demo@gmail.com</p>
-                            </div>
+                            
+                            <?php if (is_active_sidebar('address_widget')): ?>
+                            <?php dynamic_sidebar('address_widget');?>
+                            <?php endif;?>
+                            
                             <ul class="location_icon">
-                                <li> <a href="#"><i class="fa fa-facebook-f"></i></a></li>
-                                <li> <a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li> <a href="#"><i class="fa fa-instagram"></i></a></li>
+                            <?php
+                                if(get_option('dripdeals_facebook_icon')){?>
+                                    <li> <a href="<?php echo get_option('dripdeals_facebook_icon')  ?>"><i class="fa fa-facebook-f"></i></a></li>
+                               <?php }
+
+                               if (get_option('dripdeals_twitter_icon')) {?>
+                                    <li> <a href="<?php echo get_option('dripdeals_twitter_icon') ?>"><i class="fa fa-twitter"></i></a></li>
+                               <?php }
+
+                               if (get_option('dripdeals_instagram_icon')) {?>
+                                    <li> <a href="<?php echo get_option('dripdeals_instagram_icon') ?>"><i class="fa fa-instagram"></i></a></li>
+                               <?php }
+
+                            ?>
+                                
+                                
+                                
 
                             </ul>
                             <div class="menu-bottom">
-                                <ul class="link">
-                                    <li> <a href="#">Home</a></li>
-                                    <li> <a href="#">About</a></li>
-                                    
-                                    <li> <a href="#">Brand </a></li>
-                                    <li> <a href="#">Specials  </a></li>
-                                    <li> <a href="#"> Contact us</a></li>
-                                </ul>
+
+                                <?php
+
+                                    wp_nav_menu(
+                                        [
+                                            'theme_location' => 'mainMenu',
+                                            'menu_class' => 'link',
+                                            'container' => false,
+
+                                        ]
+                                    )
+
+                                ?>
+                                
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="copyright">
-                <div class="container">
-                    <p>© 2019 All Rights Reserved. Design By<a href="https://html.design/"> Free Html Templates</a></p>
-                </div>
+                            <?php if (is_active_sidebar('copyrignt_widget')): ?>
+                            <?php dynamic_sidebar('copyrignt_widget');?>
+                            <?php endif;?>
+                
             </div>
         </div>
     </footer>

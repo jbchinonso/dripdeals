@@ -33,7 +33,18 @@
                         <div class="full">
                             <div class="center-desk">
                                 <div class="logo">
-                                    <a href="index.html"><img src="<?php echo get_theme_file_uri('/images/logo.png') ?>"alt="#"></a>
+                                    <a href="<?php site_url('/'); ?>">
+                                                      <?php
+
+$custom_logo_id = get_theme_mod('custom_logo');
+$logo = wp_get_attachment_image_src($custom_logo_id, 'full');
+if (has_custom_logo()) {
+    echo '<img src="' . esc_url($logo[0]) . '" alt="' . get_bloginfo('name') . '">';
+} else {
+    echo '<h1>' . get_bloginfo('name') . '</h1>';
+}
+?>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -42,16 +53,19 @@
                         <div class="menu-area">
                             <div class="limit-box">
                                 <nav class="main-menu">
-                                    <ul class="menu-area-main">
-                                        <li class="active"> <a href="index.html">Homemy</a> </li>
-                                        <li> <a href="about.html">About</a> </li>
-                                        <li><a href="brand.html">Brand</a></li>
-                                        <li><a href="special.html">Specials</a></li>
-                                        <li><a href="contact.html">Contact Us</a></li>
-                                        <li class="last">
-                                            <a href="#"><img src="<?php echo get_theme_file_uri('images/search_icon.png') ?>" alt="icon" /></a>
-                                        </li>
-                                    </ul>
+                                        <?php
+
+                                            wp_nav_menu(
+                                                [
+                                                    'theme_location' => 'mainMenu',
+                                                    'menu_class' => 'menu-area-main',
+                                                    'container' => false,
+
+                                                ]
+                                            )
+
+                                        ?>
+
                                 </nav>
                             </div>
                         </div>

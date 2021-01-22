@@ -3,14 +3,15 @@
         <div id="myCarousel" class="carousel slide banner-main" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="first-slide" src="<?php echo get_theme_file_uri('images/banner.jpg')?>" alt="First slide">
+                    <img class="first-slide" src="<?php echo esc_url(get_theme_mod('dripdeal_slider_image1'))?>" alt="First slide">
                     <div class="container">
                         <div class="carousel-caption relative">
-                            <span>All New Phones </span>
-                            <h1>up to 25% Flat Sale</h1>
-                            <p>It is a long established fact that a reader will be distracted by the readable content
-                                <br> of a page when looking at its layout. The point of using Lorem Ipsum is that</p>
-                            <a class="buynow" href="#">Buy Now</a>
+                            <span><?php echo get_option('dripdeals_slider_text1'); ?></span>
+                            <h1><?php echo get_option('dripdeals_slider_H1text'); ?></h1>
+                            <p><?php echo get_option('dripdeals_slider_p');?></p>
+                            <a class="buynow" href="<?php echo site_url(''.get_option('dripdeals_slider_button_slug').'');?>">
+                                <?php echo get_option('dripdeals_slider_button'); ?>
+                            </a>
                             <ul class="social_icon">
                                 <li> <a href="#"><i class="fa fa-facebook-f"></i></a></li>
                                 <li> <a href="#"><i class="fa fa-twitter"></i></a></li>
@@ -20,14 +21,15 @@
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img class="second-slide" src="<?php echo get_theme_file_uri('images/banner.jpg')?>" alt="Second slide">
+                    <img class="second-slide" src="<?php echo esc_url(get_theme_mod('dripdeal_slider_image2'))?>" alt="Second slide">
                     <div class="container">
                         <div class="carousel-caption relative">
-                            <span>All New Phones </span>
-                            <h1>up to 25% Flat Sale</h1>
-                            <p>It is a long established fact that a reader will be distracted by the readable content
-                                <br> of a page when looking at its layout. The point of using Lorem Ipsum is that</p>
-                            <a class="buynow" href="#">Buy Now</a>
+                            <span><?php echo get_option('dripdeals_slider_text1') ?></span>
+                            <h1><?php echo get_option('dripdeals_slider_H1text'); ?></h1>
+                            <p><?php echo get_option('dripdeals_slider_p');?></p>
+                            <a class="buynow" href="<?php echo site_url(''.get_option('dripdeals_slider_button_slug').'');?>">
+                                <?php echo get_option('dripdeals_slider_button'); ?>
+                            </a>
                             <ul class="social_icon">
                                 <li> <a href="#"><i class="fa fa-facebook-f"></i></a></li>
                                 <li> <a href="#"><i class="fa fa-twitter"></i></a></li>
@@ -37,14 +39,15 @@
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img class="third-slide" src="<?php echo get_theme_file_uri('images/banner.jpg')?>" alt="Third slide">
+                    <img class="third-slide" src="<?php echo esc_url(get_theme_mod('dripdeal_slider_image3'))?>" alt="Third slide">
                     <div class="container">
                         <div class="carousel-caption relative">
-                            <span>All New Phones </span>
-                            <h1>up to 25% Flat Sale</h1>
-                            <p>It is a long established fact that a reader will be distracted by the readable content
-                                <br> of a page when looking at its layout. The point of using Lorem Ipsum is that</p>
-                            <a class="buynow" href="#">Buy Now</a>
+                            <span><?php echo get_option('dripdeals_slider_text1') ?></span>
+                            <h1><?php echo get_option('dripdeals_slider_H1text'); ?></h1>
+                            <p><?php echo get_option('dripdeals_slider_p'); ?></p>
+                            <a class="buynow" href="<?php echo site_url(''.get_option('dripdeals_slider_button_slug').'');?>">
+                                <?php echo get_option('dripdeals_slider_button'); ?>
+                            </a>
                             <ul class="social_icon">
                                 <li> <a href="#"><i class="fa fa-facebook-f"></i></a></li>
                                 <li> <a href="#"><i class="fa fa-twitter"></i></a></li>
@@ -64,7 +67,7 @@
     </section>
 
     <!-- about -->
-    <div class="about">
+    <div class="about" id="about">
         <div class="container">
             <div class="row">
                 <div class="col-xl-5 col-lg-5 col-md-5 co-sm-l2">
@@ -87,7 +90,7 @@
     <!-- end about -->
 
     <!-- brand -->
-    <div class="brand">
+    <div class="brand" id="brand">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -176,7 +179,7 @@
 
     <!-- end brand -->
     <!-- clients -->
-    <div class="clients">
+    <div class="clients" id="clients">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -198,14 +201,34 @@
                 </ul>
                 <!-- The slideshow -->
                 <div class="carousel-inner">
-                    <div class="carousel-item">
+                    <?php
+                        $clients = new WP_Query(array(
+                        'posts_per_page' => 3,
+                        'post_type' => 'Review',
+                        'orderby' => 'ID',
+                        'order' => 'DESC',
+                    ));
+                    
+                    $postids = [];
+
+                    foreach($clients->posts as $post){
+                        $postids[] = $post->ID;
+                    }
+
+                    while($clients->have_posts()){
+                        $clients->the_post();
+                        $class= '';
+                         if(get_the_ID () === max($postids)) $class= 'active'
+                     ?>
+                    <div class="carousel-item <?php echo $class  ?>">
                         <div class="testomonial_section">
                             <div class="full center">
                             </div>
                             <div class="full testimonial_cont text_align_center cross_layout">
                                 <div class="cross_inner">
-                                    <h3>Due markes<br><strong class="ornage_color">Rental</strong></h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit ess</i>
+                                    <h3><?php the_title(); ?><br><strong class="ornage_color"><?php the_field('client_status') ?></strong></h3>
+                                    <p>
+                                        <?php the_content(); ?>
                                     </p>
                                     <div class="full text_align_center margin_top_30">
                                         <img src="<?php echo get_theme_file_uri('icon/testimonial_qoute.png')?>">
@@ -215,42 +238,9 @@
                         </div>
                     </div>
 
-                    <div class="carousel-item active">
+                    <?php }  ?>
 
-                        <div class="testomonial_section">
-                            <div class="full center">
-                            </div>
-                            <div class="full testimonial_cont text_align_center cross_layout">
-                                <div class="cross_inner">
-                                    <h3>Due markes<br><strong class="ornage_color">Rental</strong></h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit ess</i>
-                                    </p>
-                                    <div class="full text_align_center margin_top_30">
-                                        <img src="<?php echo get_theme_file_uri('icon/testimonial_qoute.png');?>">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="carousel-item">
-
-                        <div class="testomonial_section">
-                            <div class="full center">
-                            </div>
-                            <div class="full testimonial_cont text_align_center cross_layout">
-                                <div class="cross_inner">
-                                    <h3>Due markes<br><strong class="ornage_color">Rental</strong></h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit ess</i>
-                                    </p>
-                                    <div class="full text_align_center margin_top_30">
-                                        <img src="<?php echo get_theme_file_uri('icon/testimonial_qoute.png') ?>">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                   
 
                 </div>
 
@@ -260,7 +250,7 @@
     </div>
     <!-- end clients -->
     <!-- contact -->
-    <div class="contact">
+    <div class="contact" id="contact">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
