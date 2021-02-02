@@ -20,9 +20,11 @@
  define('CONTACT_PLUGIN_URL', __FILE__);
 
  require_once 'blocks/functions.php';
+ require_once __DIR__.'/functions.php';
 
 add_action('enqueue_block_editor_assets', 'c_enqueue_block_editor_assets');
 add_action('enqueue_block_assets', 'c_enqueue_block_assets');
+
 
 
 function jb_dripdeals_form(){
@@ -33,23 +35,24 @@ function jb_dripdeals_form(){
                 <div class="col-md-12">
                     <div class="titlepage">
                         <h2>Contact us</h2>
+                        '.dripdeals_contact_plugin_notices().'
                     </div>
-                    <form class="main_form">
+                    <form class="main_form" action="?" method="POST">
                         <div class="row">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                <input class="form-control" placeholder="Your name" type="text" name="Your Name">
+                                <input class="form-control" placeholder="Your name" type="text" name="name" required>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                <input class="form-control" placeholder="Email" type="text" name="Email">
+                                <input class="form-control" placeholder="Email" type="text" name="email" required>
                             </div>
                             <div class=" col-md-12">
-                                <input class="form-control" placeholder="Phone" type="text" name="Phone">
+                                <input class="form-control" placeholder="080-395-022-49" type="text" name="phone" required>
                             </div>
                             <div class="col-md-12">
-                                <textarea class="textarea" placeholder="Message"></textarea>
+                                <textarea class="textarea" placeholder="Message" name="message" required></textarea>
                             </div>
                             <div class=" col-md-12">
-                                <button class="send">Send</button>
+                                <button class="send" name="dripdeals_message_submit_btn">Send</button>
                             </div>
                         </div>
                     </form>

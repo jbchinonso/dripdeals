@@ -1,8 +1,9 @@
 const { registerBlockType } = wp.blocks;
 const { __ } = wp.i18n;
 console.log(wp);
-//  import { Icon, shortcode } from wordpress/icons;
+const  Icons =  require('@wordpress/icons');
 
+const {Icon, shortcode} = Icons
 const {
     InspectorControls,
     BlockControls,
@@ -62,6 +63,12 @@ registerBlockType('jb/dripdeals', {
                         }}
                     />
                 </BlockControls>
+
+                <label
+                    
+                >
+                    <Icon icon = {shortcode} /> {__('shortcode')}
+                    </label>
                 
                     <TextControl
                             label={__('Form shortcode', 'dripdeals')}
