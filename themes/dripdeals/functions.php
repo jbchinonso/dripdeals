@@ -1,5 +1,11 @@
 <?php
 
+//define global variables
+define('POST_PER_PAGE', 2);
+
+//END
+
+
 function jb_dripdeals_scripts(){
     wp_enqueue_script('jquery3', '//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js', null, '1.0', true);
     wp_enqueue_script('fancyboxjs', '//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js', null, '1.0', true);
@@ -57,6 +63,8 @@ add_action('after_setup_theme', 'jb_dripdeals_custom_logo_setup');
 // Add Thumbnail Support
 add_theme_support('post-thumbnails');
 set_post_thumbnail_size(1200, 900, true);
+
+add_theme_support('title-tag');
 
 
 function jb_dripdeals_nav_menu()
@@ -124,3 +132,127 @@ function jb_dripdeals_copyrignt_widget()
 
 }
 add_action('widgets_init', 'jb_dripdeals_copyrignt_widget');
+
+
+if(class_exists('WooCommerce')){
+    function dripdeals_add_woocommerce_support(){
+        add_theme_support('woocommerce');
+    }
+
+    add_action('after_setup_theme', 'dripdeals_add_woocommerce_support');
+}
+
+//Remove default woocommerce styles
+//add_filter('woocommerce_enqueue_styles', '__return_false');
+
+
+//Remove shop title
+ add_filter('woocommerce_show_page_title', '__return_false');
+
+//Add support
+
+add_theme_support('wc-product-gallery-zoom');
+add_theme_support('wc-product-gallery-lightbox');
+add_theme_support('wc-product-gallery-slider');
+
+
+
+
+//Update cart when customers add items to cart
+
+function dripdeals_add_to_cart_fragment($fragments)
+{
+    
+    global $woocommerce;
+    $count = $woocommerce->cart->cart_contents_count;
+    
+    $fragments['.cart-count'] = "<div class='cart-count'>".$count."</div>";
+    return $fragments;
+    
+}
+add_filter('woocommerce_add_to_cart_fragments', 'dripdeals_add_to_cart_fragment');
+
+
+
+//====================
+// Everything about the see more button starts here
+//Register and Enqueue
+//Load more script
+//==================
+
+function jb_dripdeals_load_more_scripts()
+{
+
+    global $wp_query;
+
+    $args = array(
+    'post_type' => 'product',
+    'posts_per_page' => POST_PER_PAGE,
+);
+$products = new WP_Query($args);
+$variables = $products->query_vars;
+$page = $variables['paged'];
+
+//var_dump($products->max_num_pages);
+    // In most cases it is already included on the page and this line can be removed
+    wp_enqueue_script('jquery');
+
+    wp_register_script('loadmore', get_stylesheet_directory_uri() . '/js/loadmore.js', array('jquery'));
+
+    
+    wp_localize_script('loadmore', 'jb_dripdeals_loadmore_params', array(
+        'ajaxurl' => site_url() . '/wp-admin/admin-ajax.php', // WordPress AJAX
+        'posts' => json_encode($variables), // everything about our loop is here
+        'current_page' => $page ? $page : 1,
+        'max_page' => $products->max_num_pages,
+    ));
+
+    wp_enqueue_script('loadmore');
+}
+
+add_action('wp_enqueue_scripts', 'jb_dripdeals_load_more_scripts');
+
+
+
+function jb_dripdeals_loadmore_ajax_handler()
+{
+
+    // prepare our arguments for the query
+    $args = json_decode(stripslashes($_POST['query']), true);
+    $args['paged'] = $_POST['page'] + 1; // we need next page to be loaded
+    $args['post_status'] = 'publish';
+
+
+    //run the query
+   $prop = new WP_Query($args);
+
+    if ($prop->have_posts()):
+        // run the loop
+        
+        
+        while($prop->have_posts()) {
+            $prop->the_post();
+            $pid = get_the_ID();
+            $product = wc_get_product($pid);
+            ?>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 margin product">
+                        <div class="brand_box">
+                            <a href="<?php the_permalink() ?>">
+                            <img src="<?php the_post_thumbnail_url() ?>" alt="<?php the_title()?>" />
+                            <h3>₦<strong class="red"><?php echo number_format($product->get_sale_price(), 2, '.', ','); ?></strong></h3>
+                            <span> <a href="<?php the_permalink() ?>" ><?php the_title() ?></a></span>
+                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
+                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
+                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
+                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
+                            </a>
+                        </div>
+                    </div>
+            <?php 
+        }
+    endif;
+    die; // here we exit the script and even no wp_reset_query() required!
+}
+
+add_action('wp_ajax_loadmore', 'jb_dripdeals_loadmore_ajax_handler'); // wp_ajax_{action}
+add_action('wp_ajax_nopriv_loadmore', 'jb_dripdeals_loadmore_ajax_handler'); // wp_ajax_nopriv_{action}

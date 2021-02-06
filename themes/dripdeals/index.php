@@ -103,75 +103,51 @@
         <div class="brand-bg">
             <div class="container">
                 <div class="row">
-                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 margin">
+                <?php
+                    $args = array(
+                        'post_type' => 'product',
+                        'posts_per_page' => POST_PER_PAGE,
+                    );
+                    $products = new WP_Query($args);
+                    if ($products->have_posts()) {
+                        while ($products->have_posts()): $products->the_post();
+                        $pid = get_the_ID();
+                        $product = wc_get_product($pid);
+                        
+    ?>
+                        
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 margin product">
                         <div class="brand_box">
-                            <img src="<?php echo get_theme_file_uri('images/1.png')?>" alt="img" />
-                            <h3>$<strong class="red">100</strong></h3>
-                            <span>Mobile Phone</span>
+                            <a href="<?php the_permalink() ?>">
+                            <img src="<?php the_post_thumbnail_url() ?>" alt="<?php the_title()?>" />
+                            <h3>₦<strong class="red"><?php echo number_format($product->get_sale_price(), 2, '.', ','); ?></strong></h3>
+                            <span> <a href="<?php the_permalink() ?>" ><?php the_title() ?></a></span>
                             <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
                             <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
                             <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
                             <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
+                           
+                            </a>
                         </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 margin">
-                        <div class="brand_box">
-                            <img src="<?php echo get_theme_file_uri('images/2.png')?>" alt="img" />
-                            <h3>$<strong class="red">100</strong></h3>
-                            <span>Mobile Phone</span>
-                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
-                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
-                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
-                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 margin">
-                        <div class="brand_box">
-                            <img src="<?php echo get_theme_file_uri('images/3.png')?>" alt="img" />
-                            <h3>$<strong class="red">100</strong></h3>
-                            <span>Mobile Phone</span>
-                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
-                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
-                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
-                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                        <div class="brand_box">
-                            <img src="<?php echo get_theme_file_uri('images/4.png')?>" alt="img" />
-                            <h3>$<strong class="red">100</strong></h3>
-                            <span>Mobile Phone</span>
-                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
-                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
-                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
-                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 mrgn">
-                        <div class="brand_box">
-                            <img src="<?php echo get_theme_file_uri('images/5.png')?>" alt="img" />
-                            <h3>$<strong class="red">100</strong></h3>
-                            <span>Mobile Phone</span>
-                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
-                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
-                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
-                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 mrgn">
-                        <div class="brand_box">
-                            <img src="<?php echo get_theme_file_uri('images/6.png')?>" alt="img" />
-                            <h3>$<strong class="red">100</strong></h3>
-                            <span>Mobile Phone</span>
-                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
-                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
-                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
-                            <i><img src="<?php echo get_theme_file_uri('images/star.png')?>"/></i>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <a class="read-more">See More</a>
-                    </div>
+                        </div> 
+    <?php    // wc_get_template_part('content', 'product');
+    endwhile;
+} else {
+    echo __('No products found');
+}
+
+if ($products->max_num_pages > 1) {
+    echo '<div class="col-md-12">
+            <a class="read-more">See More</a>
+                </div>';
+}
+
+
+wp_reset_postdata();
+?>
+
+
+                    
                 </div>
             </div>
         </div>

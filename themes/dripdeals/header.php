@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html <?php echo language_attributes(); ?>>
 
 <head>
     <!-- basic -->
@@ -16,7 +16,7 @@
 </head>
 <!-- body -->
 
-<body class="main-layout" <?php body_class() ?>>
+<body  <?php body_class() ?> >
     <!-- loader  -->
     <div class="loader_bg">
         <div class="loader"><img src="<?php echo get_theme_file_uri('/images/loading.gif') ?>" alt="#" /></div>
@@ -33,7 +33,7 @@
                         <div class="full">
                             <div class="center-desk">
                                 <div class="logo">
-                                    <a href="<?php site_url('/'); ?>">
+                                    <a href="<?php echo site_url('/'); ?>">
                                                       <?php
 
 $custom_logo_id = get_theme_mod('custom_logo');
@@ -72,10 +72,16 @@ if (has_custom_logo()) {
                     </div>
                     <div class="col-md-6 offset-md-6">
                         <div class="location_icon_bottum">
+                            <?php
+                                global $woocommerce;
+                                $count = $woocommerce->cart->cart_contents_count;
+
+                            ?>
                             <ul>
                                 <li><img src="<?php echo get_theme_file_uri('icon/call.png')?>" />(+71)9876543109</li>
                                 <li><img src="<?php echo get_theme_file_uri('icon/email.png')?>" />demo@gmail.com</li>
-                                <li><img src="<?php echo get_theme_file_uri('icon/loc.png')?>" />Location</li>
+                                <li> <a href="<?php echo wc_get_cart_url(); ?>" ><img src="<?php echo get_theme_file_uri('icon/shopping-cart.svg')?>" class='cart' /> 
+                                <div class='cart-count'><?php echo $count?></div> </a></li>
                             </ul>
                         </div>
                     </div>
