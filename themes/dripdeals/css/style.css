@@ -2186,3 +2186,44 @@ ul.location_icon span {
 main{
     margin-top: 100px;
 }
+
+
+/**
+     woocommerce modifications
+**/
+
+form .col2-set{
+     display: flex;
+     flex-wrap: wrap;
+     justify-content: space-between;
+     gap: 1rem;
+}
+
+form .col2-set .col-1{
+     max-width: 100%;
+     flex: auto;
+}
+
+.woocommerce .col2-set .col-1, .woocommerce-page .col2-set .col-1 {
+    float: left;
+    width: 70%;
+}
+
+.woocommerce form .form-row input.input-text, .woocommerce form .form-row textarea {
+
+    margin: 0 0 0 5px;
+    padding: 5px;
+}
+
+.woocommerce form .form-row textarea {
+     width: 100%;
+}
+
+.container .woocommerce{
+     padding-bottom: 100px;
+}
+
+#paystack-payment-button{
+     color: #fff;
+     background: rgb(38, 119, 59);
+}

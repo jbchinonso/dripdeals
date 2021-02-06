@@ -242,3 +242,12 @@ ul.link li {
 }
 
 }
+
+
+@media (max-width: 768px) {
+.woocommerce .col2-set .col-1, .woocommerce-page .col2-set .col-1 {
+    float: left;
+    width: 100%;
+}
+
+}
