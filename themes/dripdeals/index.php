@@ -79,7 +79,9 @@
                     <div class="about_box">
                         <h3>About Us</h3>
                         <span>Our Mobile Shop</span>
-                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of It is a long established fact that a reader will be distracted by the </p>
+                        <p>
+                            We are in partnership with Original Equipment Manufacturers (OEMs) like IPHONE, SAMSUNG, NOKIA, HTC, SONY, INFINIX, TECNO,  HP et al. We offer quality phones and accessories at best prices and after-sales service.
+                         </p>
 
                     </div>
                
@@ -95,7 +97,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="titlepage">
-                        <h2>Our Brand</h2>
+                        <h2>Our Products</h2>
                     </div>
                 </div>
             </div>
